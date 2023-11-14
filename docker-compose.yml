@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  # Serviço para o banco de dados PostgreSQL
+  db:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: petshop_crud
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dcmrdb
+
+  # Serviço para a aplicação Python
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    tty: true
