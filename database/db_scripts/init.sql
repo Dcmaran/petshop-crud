@@ -35,7 +35,7 @@ INSERT INTO animal (nome, especie, dono_id) VALUES
     ('Pássaro2', 'Pássaro', 6);
 
 INSERT INTO consulta (data, animal_id, descricao) VALUES
-    ('2023-01-01', 1, 'Consulta de rotina'),
+    ('2023-01-01', 1, 'Banho e Tosa'),
     ('2023-02-01', 2, 'Tratamento de alergia'),
     ('2023-03-01', 3, 'Verificação anual'),
     ('2023-04-01', 4, 'Consulta de vacinação'),

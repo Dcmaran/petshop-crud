@@ -186,3 +186,45 @@ def excluir_consulta():
         print(f"Erro ao excluir consulta: {e}")
     finally:
         conn.close()
+
+def recuperar_por_id():
+
+    cliente_id = int(input("Digite o ID do Cliente para ver seus animais: "))
+    conn = conectar()
+    cur = conn.cursor()
+
+    try:
+        # Exemplo de JOIN entre as tabelas cliente e animal
+        cur.execute("""
+            SELECT cliente.id as cliente_id, cliente.nome as cliente_nome, 
+                   animal.id as animal_id, animal.nome as animal_nome
+            FROM cliente
+            LEFT JOIN animal ON cliente.id = animal.dono_id
+            WHERE cliente.id = %s;
+        """, (cliente_id,))
+
+        rows = cur.fetchall()
+
+        if not rows:
+            print(f"Nenhum cliente encontrado com o ID {cliente_id}")
+            return
+
+        cliente_info = None
+        pets_info = []
+
+        for row in rows:
+            if cliente_info is None:
+                cliente_info = {'id': row[0], 'nome': row[1]}
+            
+            pets_info.append({'id': row[2], 'nome': row[3]})
+
+        print(f"Informações do Cliente (ID {cliente_info['id']}):")
+        print(f"Nome do Cliente: {cliente_info['nome']}")
+        print("Animais de Estimação:")
+        for pet in pets_info:
+            print(f"  - ID: {pet['id']}, Nome: {pet['nome']}")
+
+    except Exception as e:
+        print(f"Erro ao recuperar dados: {e}")
+    finally:
+        conn.close()
