@@ -197,7 +197,7 @@ def recuperar_por_id():
         # Exemplo de JOIN entre as tabelas cliente e animal
         cur.execute("""
             SELECT cliente.id as cliente_id, cliente.nome as cliente_nome, 
-                   animal.id as animal_id, animal.nome as animal_nome
+                   animal.id as animal_id, animal.nome as animal_nome, animal.especie
             FROM cliente
             LEFT JOIN animal ON cliente.id = animal.dono_id
             WHERE cliente.id = %s;
@@ -216,13 +216,54 @@ def recuperar_por_id():
             if cliente_info is None:
                 cliente_info = {'id': row[0], 'nome': row[1]}
             
-            pets_info.append({'id': row[2], 'nome': row[3]})
+            pets_info.append({'id': row[2], 'nome': row[3], 'especie': row[4]})
 
         print(f"Informações do Cliente (ID {cliente_info['id']}):")
         print(f"Nome do Cliente: {cliente_info['nome']}")
         print("Animais de Estimação:")
         for pet in pets_info:
-            print(f"  - ID: {pet['id']}, Nome: {pet['nome']}")
+            print(f"  - ID: {pet['id']}, Nome: {pet['nome']}, Espécie: {pet['especie']}")
+
+    except Exception as e:
+        print(f"Erro ao recuperar dados: {e}")
+    finally:
+        conn.close()
+
+def recuperar_por_id_consulta():
+
+    consulta_id = int(input("Digite o ID da Consulta para recuperar informações: "))
+    conn = conectar()
+    cur = conn.cursor()
+
+    try:
+        # Exemplo de consulta utilizando JOIN entre as tabelas cliente, animal e consulta
+        cur.execute("""
+            SELECT cliente.id as cliente_id, cliente.nome as cliente_nome, 
+                   animal.id as animal_id, animal.nome as animal_nome, animal.especie,
+                   consulta.id as consulta_id, consulta.data, consulta.descricao
+            FROM consulta
+            LEFT JOIN animal ON consulta.animal_id = animal.id
+            LEFT JOIN cliente ON animal.dono_id = cliente.id
+            WHERE consulta.id = %s;
+        """, (consulta_id,))
+
+        row = cur.fetchone()
+
+        if not row:
+            print(f"Nenhuma consulta encontrada com o ID {consulta_id}")
+            return
+
+        cliente_info = {'id': row[0], 'nome': row[1]}
+        animal_info = {'id': row[2], 'nome': row[3], 'especie': row[4]}
+        consulta_info = {'id': row[5], 'data': row[6], 'descricao': row[7]}
+
+        print(f"Informações da Consulta (ID {consulta_info['id']}):")
+        print(f"Data da Consulta: {consulta_info['data']}")
+        print(f"Descrição: {consulta_info['descricao']}")
+        print("\nInformações do Cliente:")
+        print(f"  - ID: {cliente_info['id']}, Nome: {cliente_info['nome']}")
+        print("\nInformações do Animal:")
+        print(f"  - ID: {animal_info['id']}, Nome: {animal_info['nome']}, Espécie: {animal_info['especie']}")
 
     except Exception as e:
         print(f"Erro ao recuperar dados: {e}")

@@ -28,7 +28,8 @@ while True:
         print("1. Recuperar Animais")
         print("2. Recuperar Clientes")
         print("3. Recuperar Consultas")
-        print("4. Recuperar por cliente e animais por ID")
+        print("4. Recuperar Animais por ID do Cliente")
+        print("5. Recuperar Animal e Cliente por ID da consulta")
         print("Escolha uma opção: ")
         escolha_sub = sys.stdin.readline().strip()
         
@@ -40,6 +41,8 @@ while True:
             recuperar_consultas()
         elif escolha_sub == "4":
             recuperar_por_id()
+        elif escolha_sub == "5":
+            recuperar_por_id_consulta()
         else:
             print("Opção inválida.")
     
