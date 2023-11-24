@@ -8,13 +8,13 @@ CREATE TABLE animal (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(50),
     especie VARCHAR(50),
-    dono_id INTEGER REFERENCES cliente(id)
+    dono_id INTEGER REFERENCES cliente(id) ON DELETE CASCADE
 );
 
 CREATE TABLE consulta (
     id SERIAL PRIMARY KEY,
     data DATE,
-    animal_id INTEGER REFERENCES animal(id),
+    animal_id INTEGER REFERENCES animal(id) ON DELETE CASCADE,
     descricao TEXT
 );
 

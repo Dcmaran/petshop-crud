@@ -75,15 +75,52 @@ def inserir_consulta():
         conn.close()
 
 
-def atualizar_dados():
+def atualizar_cliente():
     conn = conectar()
     cur = conn.cursor()
 
     id_cliente = int(input("Digite o ID do cliente que deseja atualizar: "))
     novo_telefone = input("Digite o novo telefone: ")
+    novo_nome = input("Digite o novo nome: ")
 
     try:
-        cur.execute("UPDATE cliente SET telefone = %s WHERE id = %s;", (novo_telefone, id_cliente))
+        cur.execute("UPDATE cliente SET nome = %s, telefone = %s WHERE id = %s;", (novo_nome, novo_telefone, id_cliente))
+        conn.commit()
+        print("Dados atualizados com sucesso!")
+    except Exception as e:
+        print(f"Erro ao atualizar dados: {e}")
+    finally:
+        conn.close()
+    
+def atualizar_animal():
+    conn = conectar()
+    cur = conn.cursor()
+
+    id_animal = int(input("Digite o ID do animal que deseja atualizar: "))
+    novo_nome = input("Digite o novo nome: ")
+    nova_especie = input("Digite a nova especie: ")
+    novo_id_dono = input("Digite a novo ID do dono: ")
+
+    try:
+        cur.execute("UPDATE animal SET nome = %s, especie = %s, dono_id = %s WHERE id = %s;", (novo_nome, nova_especie, novo_id_dono, id_animal))
+        conn.commit()
+        print("Dados atualizados com sucesso!")
+    except Exception as e:
+        print(f"Erro ao atualizar dados: {e}")
+    finally:
+        conn.close()
+
+def atualizar_consulta():
+    conn = conectar()
+    cur = conn.cursor()
+
+    id_consulta = int(input("Digite o ID da consulta que deseja atualizar: "))
+    nova_data = input("Digite a nova Data: ")
+    novo_id_animal = input("Digite o novo ID do animal da consulta: ")
+    nova_descricao = input("Digite a nova descricao: ")
+
+    try:
+        cur.execute("UPDATE consulta SET data = %s, animal_id = %s, descricao = %s WHERE id = %s;", (nova_data, novo_id_animal, nova_descricao, id_consulta))
         conn.commit()
         print("Dados atualizados com sucesso!")
     except Exception as e:
@@ -150,6 +187,7 @@ def excluir_cliente():
 
     try:
         cur.execute("DELETE FROM cliente WHERE id = %s;", (cliente_id,))
+
         conn.commit()
         print("Cliente excluído com sucesso!")
     except Exception as e:

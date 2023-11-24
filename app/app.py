@@ -23,7 +23,22 @@ while True:
             print("Opção inválida.")
 
     elif escolha == "2":
-        atualizar_dados()
+        print("1. Atualizar Cliente")
+        print("2. Atualizar Animal")
+        print("3. Atualizar Consulta")
+        print("Escolha uma opção: ")
+        escolha_sub = sys.stdin.readline().strip()
+        
+        if escolha_sub == "1":
+            atualizar_cliente()
+        elif escolha_sub == "2":
+            atualizar_animal()
+        elif escolha_sub == "3":
+            atualizar_consulta()
+        else:
+            print("Opção inválida.")
+
+
     elif escolha == "3":
         print("1. Recuperar Animais")
         print("2. Recuperar Clientes")

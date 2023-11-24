@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-  # Serviço para o banco de dados PostgreSQL
   db:
     build:
       context: ./database
@@ -13,7 +12,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: dcmrdb
 
-  # Serviço para a aplicação Python
   app:
     build:
       context: ./app
