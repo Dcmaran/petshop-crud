@@ -1,80 +1,93 @@
 import psycopg2
+import sys
 
-def conectar():
-    return psycopg2.connect(
-        dbname="petshop_crud",
-        user="postgres",
-        password="dcmrdb",
-        host="172.17.0.1",
-        port="5432"
-    )
-
-
-def menu():
-    print("1. Inserir dados")
-    print("2. Atualizar dados")
-    print("3. Recuperar dados")
-    print("4. Excluir dados")
-    print("0. Sair")
-
-
-def inserir_cliente():
-    conn = conectar()
-    cur = conn.cursor()
-
-    nome = input("Digite o nome: ")
-    telefone = input("Digite o telefone: ")
-
+def dataConnection():
     try:
-        cur.execute("INSERT INTO cliente (nome, telefone) VALUES (%s, %s);", (nome, telefone))
-        conn.commit()
-        print("Dados inseridos com sucesso!")
+        connection = psycopg2.connect(
+            dbname="petshop_crud",
+            user="postgres",
+            password="dcmrdb",
+            host="172.17.0.1",
+            port="5432"
+        )
+
+        cursor = connection.cursor()
+
+        return connection, cursor
+
     except Exception as e:
-        print(f"Erro ao inserir dados: {e}")
-    finally:
-        conn.close()
+        print(f"Error creating connection: {e}")
 
+def selectOption():
+    print("Choose a option: ")
+    option = sys.stdin.readline().strip()
+    return option
 
-def inserir_animal():
-    conn = conectar()
-    cur = conn.cursor()
+def mainMenu():
+    print("1. Enter data")
+    print("2. Update data")
+    print("3. View data")
+    print("4. Delete Data")
+    print("0. exit")
 
-    nome = input("Digite o nome do animal: ")
-    especie = input("Digite a espécie do animal: ")
-    cliente_id = int(input("Digite o ID do dono do animal: "))
+# Enter data Functions
+def enterDataMenu():
+    print("1. Enter Client")
+    print("2. Enter Pet")
+    print("3. Enter Appointment ")
+    
+def enterClient():
+    connection, cursor = dataConnection()
+
+    nome = input("Enter name: ")
+    telefone = input("Enter phone number: ")
 
     try:
-        cur.execute("INSERT INTO animal (nome, especie, dono_id) VALUES (%s, %s, %s) RETURNING id;", (nome, especie, cliente_id))
-        animal_id = cur.fetchone()[0]
+        cursor.execute("INSERT INTO cliente (nome, telefone) VALUES (%s, %s);", (nome, telefone))
+        connection.commit()
+        print("Data entered successfully!")
+    except Exception as e:
+        print(f"Error entering data: {e}")
+    finally:
+        connection.close()
+
+def enterPet():
+    connection, cursor = dataConnection()
+
+    nome = input("Enter pet name: ")
+    especie = input("Enter pet species: ")
+    cliente_id = int(input("Enter the pet owner's ID: "))
+
+    try:
+        cursor.execute("INSERT INTO animal (nome, especie, dono_id) VALUES (%s, %s, %s) RETURNING id;", (nome, especie, cliente_id))
+        animal_id = cursor.fetchone()[0]
 
         print(f"Animal inserido com ID: {animal_id}")
     except Exception as e:
         print(f"Erro ao inserir animal: {e}")
     finally:
-        conn.commit()
-        conn.close()
+        connection.commit()
+        connection.close()
 
+def enterAppointment():
+    connection, cursor = dataConnection()
 
-def inserir_consulta():
-    conn = conectar()
-    cur = conn.cursor()
-
-    data = input("Digite a data da consulta (YYYY-MM-DD): ")
-    animal_id = int(input("Digite o ID do animal da consulta: "))
-    descricao = input("Digite a descrição da consulta: ")
+    date = input("Enter the appointment date (YYYY-MM-DD): ")
+    pet_id = int(input("Enter the pet's ID for the appointment: "))
+    description = input("Enter the appointment description: ")
 
     try:
-        cur.execute("INSERT INTO consulta (data, animal_id, descricao) VALUES (%s, %s, %s) RETURNING id;", (data, animal_id, descricao))
-        consulta_id = cur.fetchone()[0]
+        cursor.execute("INSERT INTO consulta (data, animal_id, descricao) VALUES (%s, %s, %s) RETURNING id;", (date, pet_id, description))
+        consulta_id = cursor.fetchone()[0]
 
         print(f"Consulta inserida com ID: {consulta_id}")
     except Exception as e:
         print(f"Erro ao inserir consulta: {e}")
     finally:
-        conn.commit()
-        conn.close()
+        connection.commit()
+        connection.close()
 
-
+# Update data Functions
 def atualizar_cliente():
     conn = conectar()
     cur = conn.cursor()

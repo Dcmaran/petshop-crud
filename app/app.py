@@ -2,83 +2,96 @@ import sys
 from functions import *
 
 while True:
-    menu()
-    print("Escolha uma opção: ")
-    escolha = sys.stdin.readline().strip()
+    mainMenu()
+    
+    option = selectOption()
 
-    if escolha == "1":
-        print("1. Inserir Cliente")
-        print("2. Inserir Animal")
-        print("3. Inserir Consulta")
-        print("Escolha uma opção: ")
-        escolha_sub = sys.stdin.readline().strip()
+    if option == "1":
+        enterDataMenu()
+
+        dataOption = selectOption()
         
-        if escolha_sub == "1":
-            inserir_cliente()
-        elif escolha_sub == "2":
-            inserir_animal()
-        elif escolha_sub == "3":
-            inserir_consulta()
-        else:
-            print("Opção inválida.")
+        if dataOption == "1":
+            enterClient()
 
-    elif escolha == "2":
+        elif dataOption == "2":
+            enterPet()
+
+        elif dataOption == "3":
+            enterAppointment()
+        else:
+            print("Invalid option.")
+
+    elif option == "2":
         print("1. Atualizar Cliente")
         print("2. Atualizar Animal")
         print("3. Atualizar Consulta")
-        print("Escolha uma opção: ")
-        escolha_sub = sys.stdin.readline().strip()
+
+        updateOption = selectOption()
         
-        if escolha_sub == "1":
+        if updateOption == "1":
             atualizar_cliente()
-        elif escolha_sub == "2":
+
+        elif updateOption == "2":
             atualizar_animal()
-        elif escolha_sub == "3":
+
+        elif updateOption == "3":
             atualizar_consulta()
+
         else:
-            print("Opção inválida.")
+            print("Invalid option.")
 
 
-    elif escolha == "3":
+    elif option == "3":
         print("1. Recuperar Animais")
         print("2. Recuperar Clientes")
         print("3. Recuperar Consultas")
         print("4. Recuperar Animais por ID do Cliente")
         print("5. Recuperar Animal e Cliente por ID da consulta")
-        print("Escolha uma opção: ")
-        escolha_sub = sys.stdin.readline().strip()
+
+        viewOption = selectOption()
         
-        if escolha_sub == "1":
+        if viewOption == "1":
             recuperar_animais()
-        elif escolha_sub == "2":
+
+        elif viewOption == "2":
             recuperar_cliente()
-        elif escolha_sub == "3":
+
+        elif viewOption == "3":
             recuperar_consultas()
-        elif escolha_sub == "4":
+
+        elif viewOption == "4":
             recuperar_por_id()
-        elif escolha_sub == "5":
+
+        elif viewOption == "5":
             recuperar_por_id_consulta()
+
         else:
             print("Opção inválida.")
     
-    elif escolha == "4":
+    elif option == "4":
         print("1. Excluir Cliente")
         print("2. Excluir Animal")
         print("3. Excluir Consulta")
         print("Escolha uma opção: ")
-        escolha_sub = sys.stdin.readline().strip()
 
-        if escolha_sub == "1":
+        deleteOption = selectOption()
+
+        if deleteOption == "1":
             excluir_cliente()
-        elif escolha_sub == "2":
-            excluir_animal()
-        elif escolha_sub == "3":
-            excluir_consulta()
-        else:
-            print("Opção inválida.")
 
-    elif escolha == "0":
-        print("Saindo...")
+        elif deleteOption == "2":
+            excluir_animal()
+
+        elif deleteOption == "3":
+            excluir_consulta()
+
+        else:
+            print("Invalid option.")
+
+    elif option == "0":
+        print("Exiting...")
         break
+    
     else:
-        print("Opção inválida. Tente novamente.")
+        print("Invalid opton. Try again.")
