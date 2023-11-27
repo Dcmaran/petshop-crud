@@ -141,7 +141,6 @@ def atualizar_consulta():
     finally:
         conn.close()
 
-
 def recuperar_cliente():
     conn = conectar()
     cur = conn.cursor()
@@ -158,7 +157,6 @@ def recuperar_cliente():
     finally:
         conn.close()
 
-
 def recuperar_animais():
     conn = conectar()
     cur = conn.cursor()
@@ -174,7 +172,6 @@ def recuperar_animais():
         print(f"Erro ao recuperar dados: {e}")
     finally:
         conn.close()
-
 
 def recuperar_consultas():
     conn = conectar()
